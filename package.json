@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "dev": "yarn php | yarn tailwind ",
+    "php": "php -S localhost:8000",
+    "tailwind": " npx tailwindcss -i ./src/input.css -o ./dist/style.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
