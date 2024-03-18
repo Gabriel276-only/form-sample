@@ -1,5 +1,7 @@
 <?php
 // include("../services/databaseConnector.php")
+if(isset($_POST)){
+print_r($_POST);}
 
 
 ?>
@@ -16,7 +18,9 @@
 <nav class="bg-purple-300 pt-6 shadow pb-6 mx-4 rounded-b-2xl">
         <div class="flex flex-row justify-between items-center  ">
             <h2 class="text-lg leading-6 font-medium text-black-900 ml-8 flex "> Users </h2>
-            <button class="mr-8 flex "> Log Out</button>
+            <form action="login.php" method="POST">
+                <button class="mr-8 flex "> Log Out</button>
+            </form>
         </div>
 </nav>
 

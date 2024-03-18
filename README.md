@@ -30,6 +30,15 @@
 
 </a>
 
+### v0.0.2.240317
+
+- conexão entre todas as páginas com PHP.
+
+- adição de perguntas no formulário.
+
+- correção de digitação, cores e compatibilidade.
+
+
 ### v0.0.1.240316
 
 - Instalado o framework `TailwindCSS`.
