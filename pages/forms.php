@@ -1,8 +1,19 @@
 <?php
-// include("../services/databaseConnector.php")
-if(isset($_POST)){ 
-     print_r($_POST);
+include_once("../services/databaseConnector.php");
+
+
+
+function submitUser(){
+  $formEmail = $_POST['email'];
+  $formSenha = $_POST['senha'];
+
+mysqli_query( $GLOBALS['conexao'], "INSERT INTO alunos(aluno_email,aluno_senha) VALUES ('$formEmail', '$formSenha')");
 }
+if(isset($_POST['submit'])){
+  submitUser();
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -22,56 +33,83 @@ if(isset($_POST)){
             <span class="mb-3 font-light text-sm pl-6px  flex justify-center mt-4 pb-2 ">preencha esse formulário para continuarmos nosso trabalho</span>   
                  
                     <div class=" m-5 mb-4 grid py-4">
-            
+
+                        <span class="mb-2 text-md ">Nome</span>
+                        <input  class =" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="text" name="Nome" placeholder="Nome">
+                        <span class="mb-2 text-md ">Endereço</span>
+                        <input class=" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="text" name="endereco" placeholder="Endereço" required><br>
                         <span class="mb-2 text-md ">WhatsApp</span>
-                        <input class =" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="tel" name="phone" placeholder="WhatsApp" required ><br>
-                        <span class="mb-2 text-md ">Ano</span>
-                        <input class =" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="date" name="date" placeholder="Ano" required><br>
+                        <input class =" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="tel" name="telefone" placeholder="WhatsApp" required ><br>
+                        <span class="mb-2 text-md ">Data de Nascimento</span>
+                        <input class =" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="date" name="ano" placeholder="Ano" required><br>
                         <span class="mb-2 text-md ">Data de Entrada</span><br>
                         
                         <ul class="flex flex-col sm:flex-row">
-  <li class="inline-flex items-center gap-x-2.5 py-4 px-4 text-sm font-medium  bg-white
+  <li class="inline-flex items-center gap-x-2.5 py-4 px-4 text-sm font-medium  bg-white  hover:bg-indigo-950
   border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg sm:-ms-px sm:mt-0 sm:first:rounded-se-none sm:first:rounded-es-lg sm:last:rounded-es-none sm:last:rounded-se-lg ">
     <div class="relative flex items-center w-full">
       <div class="flex items-center h-5">
-        <input id="hs-horizontal-list-group-item-radio-1" name="hs-horizontal-list-group-item-radio" type="radio" class="border-gray-200 rounded-full disabled:opacity-50 " checked>
+        <input id="hs-horizontal-list-group-item-radio-1" name="data_entrada" type="radio" class="border-gray-200 rounded-full disabled:opacity-50 ">
       </div>
-      <label for="hs-horizontal-list-group-item-radio-1" class="ms-3 block w-full text-sm text-gray-800">
+      <label for="hs-horizontal-list-group-item-radio-1" class="ms-3 block w-full text-sm text-gray-400 hover:text-white">
         2022
       </label>
     </div>
   </li>
 
-  <li class="inline-flex items-center gap-x-2.5 py-3 px-4 text-sm font-medium  bg-white
-  border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg sm:-ms-px sm:mt-0 sm:first:rounded-se-none sm:first:rounded-es-lg sm:last:rounded-es-none sm:last:rounded-se-lg">
+  <li class="inline-flex items-center gap-x-2.5 py-3 px-4 text-sm font-medium  bg-white  hover:bg-indigo-950
+  border text-gray-500 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg sm:-ms-px sm:mt-0 sm:first:rounded-se-none sm:first:rounded-es-lg sm:last:rounded-es-none sm:last:rounded-se-lg">
     <div class="relative flex  items-center w-full">
       <div class="flex items-center h-5">
-        <input id="hs-horizontal-list-group-item-radio-2" name="hs-horizontal-list-group-item-radio" type="radio" class="border-gray-200 rounded-full disabled:opacity-50 ">
+        <input id="hs-horizontal-list-group-item-radio-2" name="data_entrada" type="radio" class="border-gray-200 rounded-full disabled:opacity-50 ">
       </div>
-      <label for="hs-horizontal-list-group-item-radio-2" class="ms-3 block w-full text-sm text-gray-800">
+      <label for="hs-horizontal-list-group-item-radio-2" class="ms-3 block w-full text-sm text-gray-400 hover:text-white">
         2023
       </label>
     </div>
   </li>
 
-  <li class="inline-flex items-center gap-x-2.5 py-3 px-4 text-sm font-medium  bg-white
-  border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg sm:-ms-px sm:mt-0 sm:first:rounded-se-none sm:first:rounded-es-lg sm:last:rounded-es-none sm:last:rounded-se-lg">
+  <li class="inline-flex items-center gap-x-2.5 py-3 px-4 text-sm font-medium  bg-white hover:bg-indigo-950 ease-in-out 
+  border text-gray-800  -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg sm:-ms-px sm:mt-0 sm:first:rounded-se-none sm:first:rounded-es-lg sm:last:rounded-es-none sm:last:rounded-se-lg ">
     <div class="relative flex items-center w-full">
       <div class="flex items-center h-5">
-        <input id="hs-horizontal-list-group-item-radio-3" name="hs-horizontal-list-group-item-radio" type="radio" class="border-gray-200 rounded-full disabled:opacity-50 ">
+        <input id="hs-horizontal-list-group-item-radio-3" name="data_entrada" type="radio" class="border-gray-200 rounded-full disabled:opacity-50">
       </div>
-      <label for="hs-horizontal-list-group-item-radio-3" class="ms-3 block w-full text-sm text-gray-800 ">
+      <label for="hs-horizontal-list-group-item-radio-3" class="ms-3 block w-full text-sm text-gray-400 hover:text-white ">
         2024
       </label>
     </div>
   </li>
 </ul>
                         <span class="mb-2 text-md ">responda também essas perguntas: </span>
-                        <span class="mb-3 font-light text-sm pl-6px  flex  mt-4 pb-2 "> -Como você conheceu o campus? </span>
-                        <input class =" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="name" name="name" required ><br>
-                        <span class="mb-3 font-light text-sm pl-6px  flex  mt-4 pb-2 "> -Pretende seguir o a linha do curso? </span>
-                        <input class =" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="name" name="name" required ><br>
-                        <button type="submit" name="submit" class="bg-gradient-to-r from-blue-600 to-indigo-800 hover:from-green-500 hover:to-blue-600 text-white font-bold py-2 px-4 rounded flex text-center justify-center">Enviar</button>
+                        <span class="mb-3 font-light text-sm pl-6px  flex  mt-4  "> -Como você conheceu o campus? </span>
+                        <div>
+                        <input type="radio" id="option1" name="option1" value="escola"  />         
+                        <label for="escola">Escola Passada</label>
+                                </div>
+
+                                <div>
+                                  <input type="radio" id="pais" name="option1" value="pais" />
+                                  <label for="pais">Pais ou Amigos</label>
+                                </div>
+
+                                <div>
+                                  <input type="radio" id="redes" name="option1" value="redes " />
+                                  <label for="redes">Redes Sociais</label>
+                                </div>
+                        <span class="mb-3 font-light text-sm pl-6px  flex  mt-4 "> -Pretende seguir o a linha do curso? </span>
+                        <div>
+                                  <input type="radio" id="pais" name="option2" value="sim" />
+                                  <label for="pais">Sim</label>
+                                </div>
+
+                                <div>
+                                  <input type="radio" id="redes" name="option2" value="nao " />
+                                  <label for="redes">Não</label>
+                                </div>
+
+                                <button type="submit" name="submit" class="bg-gradient-to-r from-blue-600 to-indigo-800 hover:from-green-500 hover:to-blue-600 text-white font-bold py-2 px-4 rounded flex text-center justify-center"> Enviar</button>
+                        </div>
             </div>
 
     </form>

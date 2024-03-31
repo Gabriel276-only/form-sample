@@ -1,7 +1,7 @@
 <?php
-// include("../services/databaseConnector.php")
-if(isset($_POST)){ 
-}
+include_once("../services/databaseConnector.php");
+session_start();
+
 
 
 ?>
@@ -23,17 +23,26 @@ if(isset($_POST)){
 
                 <div class=" m-5 mb-4 flex flex-col py-4">
                     <span class="mb-2 text-md ">Email</span>
-                    <input class=" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="email" name="email" placeholder="Email" required><br>
+                    <input  id=" email"class=" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="text" name="email" placeholder="Email" ><br>
                     <span class="mb-2 text-md ">Senha</span>
-                    <input class=" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="password" name="senha" placeholder="Senha" required><br>
+                    <input  id="senha" class=" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="text" name="senha" placeholder="Senha" ><br>
 
 
-                    <button type="submit" name="submit" class="bg-gradient-to-r from-blue-600 to-indigo-800 hover:from-green-500 hover:to-blue-600 text-white font-bold py-2 px-4 rounded flex text-center justify-center"> Enviar</button>
-            </div>
+                    <button type="submit" name="submit" value="enviar" class="bg-gradient-to-r from-blue-600 to-indigo-800 hover:from-green-500 hover:to-blue-600 text-white font-bold py-2 px-4 rounded flex text-center justify-center "> Enviar</button>
+                  </form> 
+
+                    <!--<h1> Ainda não tem um login?</h1>
+                    <a href= "cadastro.php"  class=" bg-blue-600 text-white font-bold py-2 px-4 rounded flex text-center justify-center m-2 "> Cadastre-se</a>
+                </div>-->
 
         </div>
     </div>
-    </form>
+    
 </body>
 
 </html>
+
+<?php
+
+
+?>

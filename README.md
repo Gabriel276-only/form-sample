@@ -30,13 +30,16 @@
 
 </a>
 
+### v0.0.3.240330
+
+- Integração com o banco de dados
+- Teste de conexão com o workbench
+
 ### v0.0.2.240317
 
-- conexão entre todas as páginas com PHP.
-
-- adição de perguntas no formulário.
-
-- correção de digitação, cores e compatibilidade.
+- Conexão entre todas as páginas com PHP.
+- Adição de perguntas no formulário.
+- Correção de digitação, cores e compatibilidade.
 
 
 ### v0.0.1.240316
