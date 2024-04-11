@@ -2,7 +2,36 @@
 include_once("../services/databaseConnector.php");
 session_start();
 
+function submitUser(){
 
+    $formEmail = $_POST['email'];
+    $formSenha = $_POST['senha'];
+  
+  mysqli_query( $GLOBALS['conexao'], "INSERT INTO alunos(aluno_email,aluno_senha) VALUES ( '$formEmail', '$formSenha')");
+  }
+  if(isset($_POST['submit'])){
+    submitUser();
+  }
+
+   
+
+
+  /* 
+    $sql = "SELECT * FROM alunos WHERE aluno_email = ?";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("s", $login);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+
+    if ($result->num_rows > 0) {
+     echo '<script>alert("Usuário já cadastrado.");</script>'
+        ;
+    } else {
+        echo '<script>alert("Usuário não cadastrado.");</script>';
+    }
+}
+*/
 
 ?>
 <!DOCTYPE html>
@@ -23,9 +52,9 @@ session_start();
 
                 <div class=" m-5 mb-4 flex flex-col py-4">
                     <span class="mb-2 text-md ">Email</span>
-                    <input  id=" email"class=" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="text" name="email" placeholder="Email" ><br>
+                    <input  id=" email"class=" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="text" name="email" placeholder="Email" required><br>
                     <span class="mb-2 text-md ">Senha</span>
-                    <input  id="senha" class=" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="text" name="senha" placeholder="Senha" ><br>
+                    <input  id="senha" class=" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="password" name="senha" placeholder="Senha" required ><br>
 
 
                     <button type="submit" name="submit" value="enviar" class="bg-gradient-to-r from-blue-600 to-indigo-800 hover:from-green-500 hover:to-blue-600 text-white font-bold py-2 px-4 rounded flex text-center justify-center "> Enviar</button>

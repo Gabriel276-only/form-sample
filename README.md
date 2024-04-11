@@ -30,6 +30,14 @@
 
 </a>
 
+
+### v0.0.3.240330
+
+- melhoramento da lógica das páginas
+- Armazenamento de dados, demonstração no index
+- criação dos id's únicos
+
+
 ### v0.0.3.240330
 
 - Integração com o banco de dados

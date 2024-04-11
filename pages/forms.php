@@ -1,19 +1,36 @@
 <?php
+session_start();
 include_once("../services/databaseConnector.php");
 
+/*print_r($SESSION);
+if(isset($_POST['submit']) )
+{
 
+}
+else{
+  header('location: login.php');
+}
 
-function submitUser(){
+$sql = "SELECT * FROM alunos WHERE email = '$email' and senha = '$senha'"
+*/
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
   $formEmail = $_POST['email'];
-  $formSenha = $_POST['senha'];
 
-mysqli_query( $GLOBALS['conexao'], "INSERT INTO alunos(aluno_email,aluno_senha) VALUES ('$formEmail', '$formSenha')");
+
+  $sql = "SELECT * FROM alunos WHERE aluno_email = '$formEmail'";
+  $result = $conexao->query($sql);
+
+
+  if ($result->num_rows > 0) {
+      echo "<script> alert('Email já cadastrado')</script>";
+      header("Location:endForm.php");
+      exit();
+  }
+  else {
+    header("Location:endForm.php");
+  }
 }
-if(isset($_POST['submit'])){
-  submitUser();
-}
-
-
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +58,7 @@ if(isset($_POST['submit'])){
                         <span class="mb-2 text-md ">WhatsApp</span>
                         <input class =" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="tel" name="telefone" placeholder="WhatsApp" required ><br>
                         <span class="mb-2 text-md ">Data de Nascimento</span>
-                        <input class =" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="date" name="ano" placeholder="Ano" required><br>
+                        <input class =" w-full border border-gray-300 hover:bg-gray-200 rounded-md  p-2 " type="date" placeholder="Ano" required><br>
                         <span class="mb-2 text-md ">Data de Entrada</span><br>
                         
                         <ul class="flex flex-col sm:flex-row">
@@ -49,7 +66,7 @@ if(isset($_POST['submit'])){
   border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg sm:-ms-px sm:mt-0 sm:first:rounded-se-none sm:first:rounded-es-lg sm:last:rounded-es-none sm:last:rounded-se-lg ">
     <div class="relative flex items-center w-full">
       <div class="flex items-center h-5">
-        <input id="hs-horizontal-list-group-item-radio-1" name="data_entrada" type="radio" class="border-gray-200 rounded-full disabled:opacity-50 ">
+        <input id="hs-horizontal-list-group-item-radio-1" name="ano" type="radio" value="2022" class="border-gray-200 rounded-full disabled:opacity-50 ">
       </div>
       <label for="hs-horizontal-list-group-item-radio-1" class="ms-3 block w-full text-sm text-gray-400 hover:text-white">
         2022
@@ -61,7 +78,7 @@ if(isset($_POST['submit'])){
   border text-gray-500 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg sm:-ms-px sm:mt-0 sm:first:rounded-se-none sm:first:rounded-es-lg sm:last:rounded-es-none sm:last:rounded-se-lg">
     <div class="relative flex  items-center w-full">
       <div class="flex items-center h-5">
-        <input id="hs-horizontal-list-group-item-radio-2" name="data_entrada" type="radio" class="border-gray-200 rounded-full disabled:opacity-50 ">
+        <input id="hs-horizontal-list-group-item-radio-2" name="ano" type="radio" value="2023" class="border-gray-200 rounded-full disabled:opacity-50 ">
       </div>
       <label for="hs-horizontal-list-group-item-radio-2" class="ms-3 block w-full text-sm text-gray-400 hover:text-white">
         2023
@@ -73,7 +90,7 @@ if(isset($_POST['submit'])){
   border text-gray-800  -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg sm:-ms-px sm:mt-0 sm:first:rounded-se-none sm:first:rounded-es-lg sm:last:rounded-es-none sm:last:rounded-se-lg ">
     <div class="relative flex items-center w-full">
       <div class="flex items-center h-5">
-        <input id="hs-horizontal-list-group-item-radio-3" name="data_entrada" type="radio" class="border-gray-200 rounded-full disabled:opacity-50">
+        <input id="hs-horizontal-list-group-item-radio-3" name="ano" type="radio" value="2024" class="border-gray-200 rounded-full disabled:opacity-50">
       </div>
       <label for="hs-horizontal-list-group-item-radio-3" class="ms-3 block w-full text-sm text-gray-400 hover:text-white ">
         2024

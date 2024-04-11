@@ -1,9 +1,44 @@
 <?php
+session_start();
+include_once("../services/databaseConnector.php");
 
 
-/*include("../services/databaseConnector.php");
-//$conexao = mysqli_connect('localhost', 'root', '@Cartoon10*', 'forms');
 
+function submitRespostas() {
+  
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+     
+        $formNome = isset($_POST['Nome']) ? $_POST['Nome'] : '';
+        $formTelefone = isset($_POST['telefone']) ? $_POST['telefone'] : '';
+        $formAno = isset($_POST['ano']) ? $_POST['ano'] : '';
+        $formResposta1 = isset($_POST['option1']) ? $_POST['option1'] : '';
+        $formResposta2 = isset($_POST['option2']) ? $_POST['option2'] : '';
+        
+
+        if (isset($GLOBALS['conexao'])) {
+ 
+            $stmt = mysqli_prepare($GLOBALS['conexao'], "INSERT INTO alunos_respostas (nome, telefone, ano, resposta1, resposta2) VALUES (?, ?, ?, ?, ?)");
+            
+           
+            mysqli_stmt_bind_param($stmt, "sssss", $formNome, $formTelefone, $formAno, $formResposta1, $formResposta2);
+            
+           
+            mysqli_stmt_execute($stmt);
+            
+           
+            mysqli_stmt_close($stmt);
+        } else {
+
+            echo "Conexão com o banco de dados não disponível.";
+        }
+    }
+}
+
+
+submitRespostas();
+
+
+/*
 if(isset($_POST['submit'])){
 print_r('nome: ' . $_POST['nome']);
 print_r('<br>');
@@ -40,15 +75,6 @@ $resposta2 = $_POST['option2'];
 $result = mysqli_query($conexao, "INSERT INTO usuarios(nome,email,ano,telefone,resposta1,resposta2) VALUES ($nome, $email,$senha, $telefone,  $data, $ano, $resposta1, $resposta2)");
 
 }
-
-if (mysqli_query($conexao, $result)) {
-    echo "Dados inseridos com sucesso!";
-} else {
-    echo "Erro ao inserir dados: " . mysqli_error($conexao);
-}
-
-// Fechar a conexão
-mysqli_close($conexao);
 */
 ?>
 
@@ -87,10 +113,10 @@ mysqli_close($conexao);
         </thead>
         <tbody class="bg-white divide-y divide-gray-200 ">
             <tr class="py-6 text-sm font-medium text-gray-900 whitespace-nowrap justify-center text-center w-full">
-                <td> Gabriel </td>
-                <td>gabrielmagaborges@gmail.com</td>
-                <td>2024</td>
-                <td>24 99999-9999</td>
+                <td> </td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
         </tbody>
     </table>
@@ -100,3 +126,26 @@ mysqli_close($conexao);
 </body>
 
 </html>
+<?php
+$sql = "SELECT * FROM alunos_respostas";
+$resultado = mysqli_query($conexao, $sql);
+
+
+echo "
+<tbody class='bg-white divide-y divide-gray-200 '>
+            <tr class='py-6 text-sm font-medium text-gray-900 whitespace-nowrap justify-center text-center w-full'>
+                <td>  </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>";
+
+while ($row = mysqli_fetch_assoc($resultado)) {
+    echo "<li>Nome: " . $row['nome'] . ", Telefone: " . $row['telefone'] . ", Ano: " . $row['ano'] . ", Resposta 1: " . $row['resposta1'] . ", Resposta 2: " . $row['resposta2'] . "</li>";
+}
+echo "</tr>";
+
+
+mysqli_close($conexao);
+?>
