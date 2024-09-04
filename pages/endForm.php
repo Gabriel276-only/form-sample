@@ -1,7 +1,6 @@
 <?php
-session_start();
 include_once("../services/databaseConnector.php");
-
+session_start();
 
 
 function submitRespostas() {
@@ -34,9 +33,9 @@ function submitRespostas() {
     }
 }
 
-
 submitRespostas();
 
+session_abort()
 
 /*
 if(isset($_POST['submit'])){
@@ -90,62 +89,51 @@ $result = mysqli_query($conexao, "INSERT INTO usuarios(nome,email,ano,telefone,r
    
 <nav class="bg-purple-300 pt-6 shadow pb-6 mx-4 rounded-b-2xl">
         <div class="flex flex-row justify-between items-center  ">
-            <h2 class="text-lg leading-6 font-medium text-black-900 ml-8 flex "> Users </h2>
-            <form action="login.php" method="POST">
-            <button class="mr-8 flex "> Log Out</button>
+        <h2 class="text-lg leading-6 font-medium text-black-900 ml-8 flex "> Users <h2> Seja Bem-vindo </h2>
+        <form action="login.php" method="POST">
+            <button class="mr-8 flex "> Log Out </button>
             </form>
         </div>
 </nav>
 
 
-
-<div class="mt-6">
-    <table class="w-full divide-y divide-gray-500 ">
-        <thead class="bg-purple-200">
-            <tr>
-                <th class=" px-6 py-3 text-center text-xs font-medium text-grady-500 uppercase tracking-wider">Nome</th>
-                <th class=" px-6 py-3 text-center text-xs font-medium text-grady-500 uppercase tracking-wider">Email</th>
-                <th class=" px-6 py-3 text-center text-xs font-medium text-grady-500 uppercase tracking-wider"> Data</th>
-                <th class=" px-6 py-3 text-center text-xs font-medium text-grady-500 uppercase tracking-wider"> WhatsApp</th>
-                <th class=" px-6 py-3 text-center text-xs font-medium text-grady-500 uppercase tracking-wider"> Resposta 1</th>
-                <th class=" px-6 py-3 text-center text-xs font-medium text-grady-500 uppercase tracking-wider"> Resposta 2</th>
-            </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200 ">
-            <tr class="py-6 text-sm font-medium text-gray-900 whitespace-nowrap justify-center text-center w-full">
-                <td> </td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-    </nav>
-    
-</body>
-
-</html>
 <?php
 $sql = "SELECT * FROM alunos_respostas";
 $resultado = mysqli_query($conexao, $sql);
 
-
-echo "
-<tbody class='bg-white divide-y divide-gray-200 '>
-            <tr class='py-6 text-sm font-medium text-gray-900 whitespace-nowrap justify-center text-center w-full'>
-                <td>  </td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>";
-
-while ($row = mysqli_fetch_assoc($resultado)) {
-    echo "<li>Nome: " . $row['nome'] . ", Telefone: " . $row['telefone'] . ", Ano: " . $row['ano'] . ", Resposta 1: " . $row['resposta1'] . ", Resposta 2: " . $row['resposta2'] . "</li>";
-}
-echo "</tr>";
-
-
-mysqli_close($conexao);
 ?>
+
+<div class="mt-6">
+    <table class="table-fixed w-full ">
+        <thead  class="bg-purple-200 justify-between items-center">
+        <tr>
+            <th scope="col">#id</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Data</th>
+            <th scope="col">Telefone</th>
+            <th scope="col">R:1</th>
+            <th scope="col">R:2</th>
+
+        </tr>
+        </thead>
+        <tbody class="w-full divide-y divide-gray-500 justify-between items-center ">
+            <?php
+                while($user_data = mysqli_fetch_assoc($resultado))    
+                {
+                    echo"<tr>";
+                    echo "<td>". $user_data['id']."</td>";
+                    echo "<td>". $user_data['nome']."</td>";
+                    echo "<td>". $user_data['ano']."</td>";
+                    echo "<td>". $user_data['telefone']."</td>";
+                    echo "<td>". $user_data['resposta1']."</td>";
+                    echo "<td>". $user_data['resposta2']."</td>";
+                    echo "</tr>";
+                }        
+            ?>
+        </tbody>
+    </table>
+</div>
+
+</body>
+
+</html>

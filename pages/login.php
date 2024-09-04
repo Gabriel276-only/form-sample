@@ -2,36 +2,30 @@
 include_once("../services/databaseConnector.php");
 session_start();
 
-function submitUser(){
 
-    $formEmail = $_POST['email'];
-    $formSenha = $_POST['senha'];
-  
-  mysqli_query( $GLOBALS['conexao'], "INSERT INTO alunos(aluno_email,aluno_senha) VALUES ( '$formEmail', '$formSenha')");
-  }
-  if(isset($_POST['submit'])){
-    submitUser();
-  }
-
-   
-
-
-  /* 
-    $sql = "SELECT * FROM alunos WHERE aluno_email = ?";
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("s", $login);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-
-    if ($result->num_rows > 0) {
-     echo '<script>alert("Usuário já cadastrado.");</script>'
-        ;
-    } else {
-        echo '<script>alert("Usuário não cadastrado.");</script>';
+if ($conexao) {
+    if (isset($_POST['submit']) && !empty($_POST['email']) && !empty($_POST['senha'])) {
+        $query = "SELECT * FROM alunos WHERE aluno_email = 'email' and aluno_senha = 'senha'";
+        $result = mysqli_query($conexao, $query);
+      $formEmail = $_POST('email');
+      $formSenha = $_POST('senha');
+    /*  if (mysqli_num_rows($result) > 0) {
+        $_SESSION['email'] = $formEmail;
+        $_SESSION['senha'] = $formSenha;
+        header('location:forms.php');
+        }
+        else{
+          unset ($_SESSION['email']);
+          unset ($_SESSION['senha']);
+          header('location:login.php');
+        }
+        }
     }
-}
-*/
+  
+    */
+  }}
+
+$conexao->close();
 
 ?>
 <!DOCTYPE html>
@@ -70,8 +64,3 @@ function submitUser(){
 </body>
 
 </html>
-
-<?php
-
-
-?>

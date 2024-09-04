@@ -2,35 +2,44 @@
 session_start();
 include_once("../services/databaseConnector.php");
 
-/*print_r($SESSION);
-if(isset($_POST['submit']) )
-{
 
-}
-else{
-  header('location: login.php');
-}
+  if(isset($_POST['email']) && isset($_POST['senha']) && !empty($_POST['email']) && !empty($_POST['senha'])){
+      $formEmail = $_POST['email'];
+      $formSenha = $_POST['senha'];
 
-$sql = "SELECT * FROM alunos WHERE email = '$email' and senha = '$senha'"
-*/
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      $conexao = $GLOBALS['conexao'];
 
-  $formEmail = $_POST['email'];
+      if($conexao){
+          $query = "SELECT * FROM alunos WHERE aluno_email = '$formEmail' and aluno_senha = '$formSenha'";
+          $result = mysqli_query($conexao, $query);
 
-
-  $sql = "SELECT * FROM alunos WHERE aluno_email = '$formEmail'";
-  $result = $conexao->query($sql);
-
-
-  if ($result->num_rows > 0) {
-      echo "<script> alert('Email já cadastrado')</script>";
-      header("Location:endForm.php");
-      exit();
+          if(mysqli_num_rows($result) > 0){
+            $_SESSION['email'] = $formEmail;
+            $_SESSION['senha'] = $formSenha;
+              echo "Este email já está cadastrado. Por favor, insira um novo email.";
+              header('location:endform.php');
+          } else {
+              $query_insert = "INSERT INTO alunos(aluno_email, aluno_senha) VALUES ('$formEmail', '$formSenha')";
+              if(mysqli_query($conexao, $query_insert)){
+                  echo "Dados inseridos com sucesso!";
+              } else {
+                  echo "Erro ao inserir dados: " . mysqli_error($conexao);
+              }
+          }
+      } else {
+          echo "Erro na conexão com o banco de dados.";
+      }
+  } else {
+      echo "Por favor, forneça um e-mail e senha.";
   }
-  else {
-    header("Location:endForm.php");
-  }
-}
+
+
+if(isset($_POST['submit']))
+
+
+
+
+$conexao->close();
 ?>
 
 <!DOCTYPE html>
