@@ -2,48 +2,51 @@
 session_start();
 include_once("../services/databaseConnector.php");
 
+$erro = ""; 
 
-  if(isset($_POST['email']) && isset($_POST['senha']) && !empty($_POST['email']) && !empty($_POST['senha'])){
-      $formEmail = $_POST['email'];
-      $formSenha = $_POST['senha'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email']) && isset($_POST['senha'])) {
+    $formEmail = trim($_POST['email']);
+    $formSenha = $_POST['senha'];
 
-      $conexao = $GLOBALS['conexao'];
+    if (!empty($formEmail) && !empty($formSenha)) {
+        if ($conexao) {
+            // Corrigindo a consulta para pegar o e-mail e a senha
+            $stmt = $conexao->prepare("SELECT aluno_email, aluno_senha FROM alunos WHERE aluno_email = ?");
+            $stmt->bind_param("s", $formEmail);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-      if($conexao){
-          $query = "SELECT * FROM alunos WHERE aluno_email = '$formEmail' and aluno_senha = '$formSenha'";
-          $result = mysqli_query($conexao, $query);
-
-          if(mysqli_num_rows($result) > 0){
-            $_SESSION['email'] = $formEmail;
-            $_SESSION['senha'] = $formSenha;
-              echo "Este email já está cadastrado. Por favor, insira um novo email.";
-              header('location:endform.php');
-          } else {
-              $query_insert = "INSERT INTO alunos(aluno_email, aluno_senha) VALUES ('$formEmail', '$formSenha')";
-              if(mysqli_query($conexao, $query_insert)){
-                  echo "Dados inseridos com sucesso!";
-              } else {
-                  echo "Erro ao inserir dados: " . mysqli_error($conexao);
-              }
-          }
-      } else {
-          echo "Erro na conexão com o banco de dados.";
-      }
-  } else {
-      echo "Por favor, forneça um e-mail e senha.";
-  }
-
-
-if(isset($_POST['submit']))
-
-
-
+            if ($user = $result->fetch_assoc()) {
+                // Agora a senha pode ser verificada corretamente
+                if (password_verify($formSenha, $user['aluno_senha'])) {
+                    $_SESSION['email'] = $formEmail;
+                    header("Location: dashboard.php");
+                    exit;
+                } else {
+                    $erro = "Senha incorreta!";
+                }
+            } else {
+                $erro = "Usuário não encontrado!";
+            }
+        } else {
+            $erro = "Erro na conexão com o banco de dados.";
+        }
+    } else {
+        $erro = "Por favor, forneça um e-mail e senha.";
+    }
+}
 
 $conexao->close();
 ?>
 
+<!-- Exibir erro na página -->
+<?php if (!empty($erro)): ?>
+    <script>alert("<?php echo $erro; ?>");</script>
+<?php endif; ?>
+
 <!DOCTYPE html>
-<html lang="pt-BR" <meta charset="UTF-8">
+<html lang="pt-BR"> 
+<meta charset="UTF-8">
 <meta name="viewport" content="widthoption0=device-widthoption0, initial-scale=1.0">
 <title>Document</title>
 <link rel="stylesheet" href="../dist/style.css">

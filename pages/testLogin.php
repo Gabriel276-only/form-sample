@@ -1,21 +1,36 @@
 <?php
 include_once("../services/databaseConnector.php");
-session_start()
+session_start();
 
-if (isset($_POST['submit']) && !empty($_POST['email']) && !empty($_POST['senha'])) 
-{
-    $formEmail = $_POST('email');
-    $formSenha = $_POST('senha');
+if (isset($_POST['submit']) && !empty($_POST['email']) && !empty($_POST['senha'])) {
+    $formEmail = trim($_POST['email']);
+    $formSenha = $_POST['senha'];
 
-      $sql = "SELECT * FROM alunos where aluno_email = '$formEmail' and aluno_senha = '$formSenha'";
-      $result = $conexao-> query($sql);
+    $conexao = $GLOBALS['conexao'];
 
-      if(mysqli_num_rows($result) < 1){
-        header("location:sistema.php");
-      }
+    if ($conexao) {
+        // Buscar usuário pelo e-mail
+        $stmt = $conexao->prepare("SELECT aluno_senha FROM alunos WHERE aluno_email = ?");
+        $stmt->bind_param("s", $formEmail);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-else{
-    header("location:login.php");
-}
+        if ($user = $result->fetch_assoc()) {
+            // Verificar senha
+            if (password_verify($formSenha, $user['aluno_senha'])) {
+                $_SESSION['email'] = $formEmail;
+                header("Location: sistema.php"); // Login bem-sucedido
+                exit;
+            } else {
+                echo "Senha incorreta!";
+            }
+        } else {
+            echo "Usuário não encontrado!";
+        }
+    } else {
+        echo "Erro na conexão com o banco de dados.";
+    }
+} else {
+    echo "Por favor, preencha todos os campos.";
 }
 ?>

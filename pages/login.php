@@ -2,34 +2,48 @@
 include_once("../services/databaseConnector.php");
 session_start();
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+    $formEmail = trim($_POST['email']);
+    $formSenha = $_POST['senha'];
 
-if ($conexao) {
-    if (isset($_POST['submit']) && !empty($_POST['email']) && !empty($_POST['senha'])) {
-        $query = "SELECT * FROM alunos WHERE aluno_email = 'email' and aluno_senha = 'senha'";
-        $result = mysqli_query($conexao, $query);
-      $formEmail = $_POST('email');
-      $formSenha = $_POST('senha');
-    /*  if (mysqli_num_rows($result) > 0) {
-        $_SESSION['email'] = $formEmail;
-        $_SESSION['senha'] = $formSenha;
-        header('location:forms.php');
+    if (!empty($formEmail) && !empty($formSenha)) {
+        if ($conexao) {
+            // Buscar usuário pelo e-mail
+            $stmt = $conexao->prepare("SELECT aluno_email, aluno_senha FROM alunos WHERE aluno_email = ?");
+            $stmt->bind_param("s", $formEmail);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($user = $result->fetch_assoc()) {
+                // Verifica a senha
+                if (password_verify($formSenha, $user['aluno_senha'])) {
+                    $_SESSION['email'] = $formEmail;
+                    header("Location: enform.php"); // Usuário existente e senha correta
+                    exit;
+                } else {
+                    $erro = "Senha incorreta!";
+                }
+            } else {
+                // Usuário novo, redireciona para forms.php
+                header("Location: forms.php");
+                exit;
+            }
+            $stmt->close();
+        } else {
+            $erro = "Erro na conexão com o banco de dados.";
         }
-        else{
-          unset ($_SESSION['email']);
-          unset ($_SESSION['senha']);
-          header('location:login.php');
-        }
-        }
+    } else {
+        $erro = "Preencha todos os campos!";
     }
-  
-    */
-  }}
+}
 
 $conexao->close();
-
 ?>
+
+
 <!DOCTYPE html>
-<html lang="pt-BR" <meta charset="UTF-8">
+<html lang="pt-BR">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
 <link rel="stylesheet" href="../dist/style.css">
